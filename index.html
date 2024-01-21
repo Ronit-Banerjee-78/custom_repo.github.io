@@ -9,7 +9,8 @@
   </head>
   <style>
     .head_start{
-        gap: 80px;
+      /* align-items: start;
+       justify-content: space-around; */
     }
     .head_start img{
        width: 15%;
@@ -31,16 +32,16 @@
         margin-bottom: 25px;
     }
     .row{
-      gap:50px 50px;
-      align-items: center;
-      justify-content: center;
-    }
-    .pagi{
-      display: flex;
+      /* gap: 50px 50px; */
       align-items: center;
       justify-content: center;
 
     }
+.pagi{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
     .custom{
       display: flex;
       align-items: center;
@@ -50,71 +51,120 @@
     }
     .custom button{
       border: 1px solid #0864ce;
-      background-color: none;
+      background-color: rgb(103, 165, 198);
       color: #0864ce;
       padding: 0 10px;
       font-weight: bolder;
     }
+    .custom button.rev{
+
+      background-color: rgb(250, 250, 250);
+
+    }
     .card-body a{
       margin-top: 10px;
     }
+    /* pagination styling */
+  .pagination-container {
+
+}
+.pagination-number,
+.pagination-button{
+
+  background-color: transparent;
+  border: none;
+  /* margin: 0.25rem 0.25rem; */
+  cursor: pointer;
+
+}
+.card-title{
+  text-transform: uppercase;
+}
+#firs.active{
+  background-color: blue;
+  color: azure;
+}
+#sec.active{
+  background-color: blue;
+  color: azure;
+}
+#thi.active{
+  background-color: blue;
+  color: azure;
+}
+#loading {
+    width: 2rem;
+    height: 2rem;
+    border: 5px solid #f3f3f3;
+    border-top: 6px solid #9c41f2;
+    border-radius: 100%;
+    margin: auto;
+    visibility: hidden;
+    animation: spin 1s infinite linear;
+}
+#loading.display {
+    visibility: visible;
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
   </style>
   <body>
 
     <div class="container">
-<div class="head_start mt-5 d-flex ">
-    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" class="" alt="...">
-<div class="data_text d-inline">
+
+
+<div class="head_start mt-5 row">
+    <img src="https://avatars.githubusercontent.com/u/1202528?v=4" class="col-md-4" alt="...">
+<div class="data_text d-inline col-md-8">
 <h3>Jhone Doe</h3>
-<p>👋 Hi, I’m @Ronit-Banerjee-78 <br>
-    👀 I’m interested in ...WEB DEVELOPMENT<br>
-    🌱 I’m currently learning ... COMPUTER SCIENCE<br>
-    💞️ I’m looking to collaborate on ...<br>
-    📫 How to reach me ...<br>
-    INSTA:- @ig_ronit_78</p>
-    <h4><i class="bi bi-geo-alt-fill"></i> Panagarh</h4>
-    <h6>Twitter:  https://twitter.com/jhone-doe </h6>
-</div>
+<p>Winter is coming</p>
+    <h4><i class="bi bi-geo-alt-fill"></i> Orlando, FL</h4>
+    <h6>Twitter:  https://twitter.com/john_papa </h6>
 </div>
 <div class="d-flex">
-  <p class="hello"><i class="bi bi-link"></i> https://github.com/jhone-doe</p>
+  <p class="hello"><i class="bi bi-link"></i> https://github.com/jhonpapa</p>
 
 </div>
-
+</div>
+<div id="loading"></div>
 <div class="container mb-4 cont">
     <section class="row" id="row">
 
         </section>
     </div>
-    <!-- //pagination -->
-    <nav aria-label="Page navigation example" class="pagi">
+    <!-- //pagination pagination-button pagi-->
+    <nav aria-label="Page navigation example " class="pagi">
       <ul class="pagination">
-        <li class="page-item" id="prev">
-          <p class="page-link" href="" aria-label="Previous">
+        <li class="page-item pagination-button">
+          <button class="page-link" aria-label="Previous" id="prev">
             <span aria-hidden="true">&laquo;</span>
-          </p>
+          </button>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item"><a class="page-link" href="#">5</a></li>
-        <li class="page-item"><a class="page-link" href="#">6</a></li>
-        <li class="page-item"><a class="page-link" href="#">7</a></li>
-        <li class="page-item"><a class="page-link" href="#">8</a></li>
-        <li class="page-item"><a class="page-link" href="#">9</a></li>
-        <li class="page-item"><a class="page-link" href="#">10</a></li>
-        <li class="page-item" id="next">
-          <p class="page-link" href="" aria-label="Next">
+        <ul class="pagination" id="pagination-number">
+        <li class="page-item"><button class="page-link" id="firs">1</button></li>
+        <li class="page-item"><button class="page-link" id="sec">2</button></li>
+        <li class="page-item"><button class="page-link" id="thir">3</button></li>
+      </ul>
+        <li class="page-item pagination-button">
+          <button class="page-link" aria-label="Next" id="next">
             <span aria-hidden="true">&raquo;</span>
-          </p>
+          </button>
         </li>
       </ul>
     </nav>
     <nav class="custom">
-      <button class="rounded-pill" disabled><i class="bi bi-arrow-left"></i>Older</button>
-      <button class="rounded-pill">Newer<i class="bi bi-arrow-right"></i></button>
+
+      <p class="rounded-pill" id="old"></p>
+
+      <p class="rounded-pill" id="newp"></p>
     </nav>
+
 </div>
 <script src="script.js"></script>
 
