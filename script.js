@@ -64,7 +64,7 @@ console.log(data.sort(data.created_at))
  rowHap.innerHTML= currentItems.map((user)=>
 
 `<div class="col-md-6">
-    <div class="card mt-4" style="width: 30rem;">
+    <div class="card mt-4" style="width: 19rem;">
      <div class="card-body">
      <h5 class="card-title">${user.name}</h5>
      <p class="card-text">${user.description}.</p>
