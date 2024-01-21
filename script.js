@@ -1,70 +1,204 @@
 const APIURL="https://api.github.com/users/"
+// const list = document.querySelector("#data-list");
+const prevButton = document.querySelector("#prev");
+const nextButton = document.querySelector("#next");
+const btnVal=document.querySelector("#firs")
+const btnVal2=document.querySelector("#sec")
+const btnVal3=document.querySelector("#thir")
+const old=document.querySelector("#old")
+const newp=document.querySelector("#newp")
+// const loader=document.querySelector("#loader")
+const pageNumber = document.querySelector(".page-link")
+
+const loader = document.querySelector("#loading");
+
+// showing loading
+function displayLoading() {
+    loader.classList.add("display");
+    // to stop loading after some time
+    setTimeout(() => {
+        loader.classList.remove("display");
+    }, 3000);
+}
+
+// hiding loading
+function hideLoading() {
+    loader.classList.remove("display");
+}
+
 
 
 const getUser=async(username)=>{
-      const res=await fetch(`${APIURL+username}/repos`);
-      const data=await res.json();
+displayLoading();
+  const res=await fetch(`${APIURL+username}/repos`);
+  const data=await res.json();
 
-console.log(data);
+  console.log(data);
 
-
-
-let itemperPage=10;
-let curentPAge=1;
+  const itemperPage=10;
+  let curentPAge=1;
+  let pages=[];
   const repoLength=data.length;
-  const pages=[];
+  const pageCount=Math.ceil(repoLength/itemperPage);
 
-  for(let i=0;i<=Math.ceil(repoLength/itemperPage);i++){
+
+
+  for(let i=0;i<=pageCount;i++){
     pages.push(i)
   }
 
-  const indexofLastPage=curentPAge*itemperPage;
-  const indexofFisrtPage=indexofLastPage-itemperPage;
-  const currentItems=data.slice(indexofFisrtPage,indexofLastPage);
-console.log(currentItems);
-console.log(indexofFisrtPage);
-console.log(indexofLastPage);
+
+
+const createDate=new Date(data.created_at)
+let valueDAte=createDate.toDateString();
 //showing data
-const rowHap=document.querySelector('.row')
+const rowHap=document.querySelector('#row')
 
 const cardsShow=()=>{
-  currentItems.map((user)=>{
-    const postData=document.createElement("div")
-    postData.classList.add('.card');
-    postData.innerHTML=`
-    <div class="card col-6" style="width: 35rem;">
+  const indexofLastPage=curentPAge*itemperPage;
+  const indexofFisrtPage=indexofLastPage-itemperPage;
+
+  const currentItems=data.slice(indexofFisrtPage,indexofLastPage);
+console.log(data.sort(data.created_at))
+
+ rowHap.innerHTML= currentItems.map((user)=>
+
+`<div class="col-md-6">
+    <div class="card mt-4" style="width: 30rem;">
      <div class="card-body">
      <h5 class="card-title">${user.name}</h5>
      <p class="card-text">${user.description}.</p>
      <a href="#" class="btn btn-primary">${user.language}</a>
      </div>
      </div>
+     </div>
     `
 
-rowHap.appendChild(postData);
-// console.log(user.name)
-
-  })
+  ).join('');
+more()
+  console.log(indexofFisrtPage);
+console.log(indexofLastPage);
 }
+hideLoading();
+
 cardsShow();
 
-const prevBtn=()=>{
-  if((curentPAge-1)*itemperPage){
-    curentPAge=curentPAge-1
-    // cardsShow();
-    console.log(currentItems);
+
+
+document.querySelectorAll("#pagination-number").forEach((button) => {
+  const pageIndex = Number(button.getAttribute("page-index"));
+  if (pageIndex) {
+    button.addEventListener("click", () => {
+     console.log(pageIndex);
+    });
   }
+
+})
+function prevPage(){
+  if((curentPAge-1)*itemperPage){
+
+    curentPAge--;
+
+    cardsShow();
+    hideLoading();
+  }
+  console.log(curentPAge);
 }
-const nxtBtn=()=>{
-  if((curentPAge*itemperPage)/repoLength){
-    curentPAge=curentPAge+1;
-    // cardsShow();
-    console.log(currentItems);
+function more(){
+
+  if(curentPAge<=1){
+    old.innerHTML=`
+    <button class="rounded-pill rev" disabled id="old"><i class="bi bi-arrow-left"></i>Older</button>
+    `
+  }else{
+    old.innerHTML=`
+    <button class="rounded-pill" id="old"><i class="bi bi-arrow-left"></i>Older</button>
+    `
+  }
+
+  if(curentPAge>=pageCount){
+    newp.innerHTML=`
+    <button class="rounded-pill rev" disabled id="newp"><i class="bi bi-arrow-right"></i>New</button>
+    `
+  }else{
+    newp.innerHTML=`
+    <button class="rounded-pill" id="newp"><i class="bi bi-arrow-right"></i>New</button>
+    `
+  }
+
+
+}
+function prevPageF(){
+  if((curentPAge-1)*itemperPage){
+
+
+    curentPAge--;
+
+
+    cardsShow();
+    hideLoading();
 
   }
+  console.log(curentPAge);
 }
-document.getElementById("prev").addEventListener("click",prevBtn);
-document.getElementById("next").addEventListener("click",nxtBtn);
+
+function nextPage(){
+  if((curentPAge*itemperPage)/repoLength){
+
+    curentPAge++;
+    cardsShow();
+    hideLoading();
+
+
+  }if((curentPAge*itemperPage)/repoLength<=0){
+    rowHap.innerHTML=
+
+`<div class="col-md-6">
+    <div class="card mt-4" style="width: 30rem;">
+     <div class="card-body">
+     <h5 class="card-title">No More data</h5>
+     </div>
+     </div>
+     </div>
+    `
+
+  }
+  console.log(curentPAge);
+
+
 }
+
+prevButton.addEventListener("click",prevPage,displayLoading,false)
+nextButton.addEventListener("click",nextPage,displayLoading,false)
+
+old.addEventListener("click",prevPageF,displayLoading,false)
+newp.addEventListener("click",nextPage,displayLoading,false)
+
+btnVal.addEventListener("click",()=>{
+if(curentPAge==btnVal){
+btnVal.classList.add("active")
+}{
+
+
+  curentPAge=1;
+  cardsShow();
+
+}
+
+
+})
+btnVal2.addEventListener("click",()=>{
+  curentPAge=2
+  cardsShow()
+
+})
+btnVal3.addEventListener("click",()=>{
+curentPAge=3
+cardsShow()
+
+})
+
+}
+// getUserdetails("johnpapa");
 getUser("johnpapa");
 
