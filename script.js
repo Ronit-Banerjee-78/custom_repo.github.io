@@ -1,5 +1,4 @@
 const APIURL="https://api.github.com/users/"
-// const list = document.querySelector("#data-list");
 const prevButton = document.querySelector("#prev");
 const nextButton = document.querySelector("#next");
 const btnVal=document.querySelector("#firs")
@@ -7,7 +6,7 @@ const btnVal2=document.querySelector("#sec")
 const btnVal3=document.querySelector("#thir")
 const old=document.querySelector("#old")
 const newp=document.querySelector("#newp")
-// const loader=document.querySelector("#loader")
+
 const pageNumber = document.querySelector(".page-link")
 
 const loader = document.querySelector("#loading");
@@ -27,7 +26,7 @@ function hideLoading() {
 }
 
 
-
+//getting the details
 const getUser=async(username)=>{
 displayLoading();
   const res=await fetch(`${APIURL+username}/repos`);
@@ -47,10 +46,6 @@ displayLoading();
     pages.push(i)
   }
 
-
-
-const createDate=new Date(data.created_at)
-let valueDAte=createDate.toDateString();
 //showing data
 const rowHap=document.querySelector('#row')
 
@@ -64,7 +59,7 @@ console.log(data.sort(data.created_at))
  rowHap.innerHTML= currentItems.map((user)=>
 
 `<div class="col-md-6">
-    <div class="card mt-4" style="width: 19rem;">
+    <div class="card mt-4" style="width: 30rem;">
      <div class="card-body">
      <h5 class="card-title">${user.name}</h5>
      <p class="card-text">${user.description}.</p>
@@ -199,6 +194,6 @@ cardsShow()
 })
 
 }
-// getUserdetails("johnpapa");
+
 getUser("johnpapa");
 
